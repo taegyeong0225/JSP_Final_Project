@@ -1,0 +1,9 @@
+/* 입력 폼 사이에 간격 띄우기 */
+.form-floating {
+	margin-bottom : 20px;
+}
+
+/* 제목 위에 마진 남기기  */
+.fw-normal {
+	margin-top: 50px;
+}
