@@ -1,3 +1,5 @@
+/* 로그인 및 회원가입 */
+
 /* 입력 폼 사이에 간격 띄우기 */
 .form-floating {
 	margin-bottom : 20px;
@@ -6,4 +8,85 @@
 /* 제목 위에 마진 남기기  */
 .fw-normal {
 	margin-top: 50px;
+} 
+
+/* 캘린더 */
+
+/* 모든 요소에 대한 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+/* 본문 스타일 */
+body {
+    font-size: 14px;
+    font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+}
+
+/* 링크 스타일 */
+a {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:active, a:hover {
+    text-decoration: underline;
+    color: #F28011;
+}
+
+/* 캘린더 스타일 */
+.calendar {
+    width: 280px;
+    margin: 30px auto;
+}
+
+.calendar .title {
+    height: 37px;
+    line-height: 37px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.calendar table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.calendar table thead tr:first-child {
+    background: #f6f6f6;
+}
+
+.calendar table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.calendar table td:nth-child(7n+1) {
+    color: red;
+}
+
+.calendar table td:nth-child(7n) {
+    color: blue;
+}
+
+.calendar table td.gray {
+    color: #ccc;
+}
+
+.calendar table td.today {
+    font-weight: 700;
+    background: #E6FFFF;
+}
+
+.calendar .footer {
+    height: 25px;
+    line-height: 25px;
+    text-align: right;
+    font-size: 12px;
+}
+
