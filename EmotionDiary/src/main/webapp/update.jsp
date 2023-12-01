@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="diary.Diary" %>
+<%@ page import="diary.DiaryDTO" %>
 <%@ page import="diary.DiaryDAO" %>
 
 <!DOCTYPE html>
@@ -21,37 +21,37 @@
   	<jsp:include page="header.jsp" /> 
 
 	<%
-		String userID=null;
-		if(session.getAttribute("userID")!=null){
-			userID=(String)session.getAttribute("userID");
-		}
-		if(userID==null){
-			PrintWriter script=response.getWriter();
-			script.println("<script>");
-			script.println("alert('로그인을 하세요.')");
-			script.println("location.href='login.jsp'");
-			script.println("</script>");
-		}
-		int diaryID=0;
-		if(request.getParameter("diaryID")!=null)
-			diaryID=Integer.parseInt(request.getParameter("diaryID"));
-		if(diaryID==0){
-			PrintWriter script=response.getWriter();
-			script.println("<script>");
-			script.println("alert('유효하지 않은 글입니다.')");
-			script.println("location.href='diary.jsp'");
-			script.println("</script>");
-		}
-		Diary diary = new DiaryDAO().getDiary(diaryID);
-		//작성자가 본인인지?
-		if(!userID.equals(diary.getUserID())){
-			PrintWriter script=response.getWriter();
-			script.println("<script>");
-			script.println("alert('권한이 없습니다.')");
-			script.println("location.href='diary.jsp'");
-			script.println("</script>");
-		}
-	%>
+ 	String userID=null;
+ 			if(session.getAttribute("userID")!=null){
+ 		userID=(String)session.getAttribute("userID");
+ 			}
+ 			if(userID==null){
+ 		PrintWriter script=response.getWriter();
+ 		script.println("<script>");
+ 		script.println("alert('로그인을 하세요.')");
+ 		script.println("location.href='login.jsp'");
+ 		script.println("</script>");
+ 			}
+ 			int diaryID=0;
+ 			if(request.getParameter("diaryID")!=null)
+ 		diaryID=Integer.parseInt(request.getParameter("diaryID"));
+ 			if(diaryID==0){
+ 		PrintWriter script=response.getWriter();
+ 		script.println("<script>");
+ 		script.println("alert('유효하지 않은 글입니다.')");
+ 		script.println("location.href='diary.jsp'");
+ 		script.println("</script>");
+ 			}
+ 			DiaryDTO diary = new DiaryDAO().getDiary(diaryID);
+ 			//작성자가 본인인지?
+ 			if(!userID.equals(diary.getUserID())){
+ 		PrintWriter script=response.getWriter();
+ 		script.println("<script>");
+ 		script.println("alert('권한이 없습니다.')");
+ 		script.println("location.href='diary.jsp'");
+ 		script.println("</script>");
+ 			}
+ 	%>
 	
 
 	<div class="container">

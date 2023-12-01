@@ -5,7 +5,7 @@
 <%@ page import="java.io.PrintWriter" %>
 <% request.setCharacterEncoding("UTF-8"); %>
 
-<jsp:useBean id="diary" class="diary.Diary" scope="page"/>
+<jsp:useBean id="diary" class="diary.DiaryDTO" scope="page"/>
 <jsp:setProperty name="diary" property="diaryTitle"/>
 <jsp:setProperty name="diary" property="diaryContent" />
 

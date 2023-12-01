@@ -46,7 +46,7 @@ public class UserDAO {
 		return -2; //데이터베이스 오류
 	}
 	
-	public int join(User user) {
+	public int join(UserDTO user) {
 		String SQL = "INSERT INTO USER VALUES (?,?,?,?)";//총 다섯개의 값이 들어갈 수 있도록 한다.
 		try {//insert문장의 결과는 0이상의 숫자가 발현되기 떄문에 -1이 아닌경우는 성공적인 회원가입이 이뤄졌다.
 			pstmt=conn.prepareStatement(SQL);
@@ -61,14 +61,14 @@ public class UserDAO {
 		return -1;//데이터베이스 오류
 	}
 
-	public User getUser(String user_id) {//하나의 글 내용을 불러오는 함수
+	public UserDTO getUser(String user_id) {//하나의 글 내용을 불러오는 함수
 		String SQL="SELECT * from USER where user_id = ?";
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
 			pstmt.setString(1, user_id);//물음표
 			rs=pstmt.executeQuery();//select
 			if(rs.next()) {//결과가 있다면
-				User user = new User();
+				UserDTO user = new UserDTO();
 				user.setUserID(rs.getString(1));//첫 번째 결과 값
 				user.setUserName(rs.getString(2));
 				user.setUserPassword(rs.getString(3));

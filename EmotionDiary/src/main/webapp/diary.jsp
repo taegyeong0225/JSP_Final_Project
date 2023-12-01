@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="diary.DiaryDAO"%>
-<%@ page import="diary.Diary"%>
+<%@ page import="diary.DiaryDTO"%>
 <%@ page import="java.util.ArrayList"%>
 
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
 
-<% request.setCharacterEncoding("UTF-8"); %>
+<%
+request.setCharacterEncoding("UTF-8");
+%>
 
 
 <!DOCTYPE html>
@@ -27,13 +29,13 @@
 </head>
 <body>
 	<%
-		String userID = null;
-		if (session.getAttribute("userID") != null) {//주어진 userID에 연결된 속성값을 얻어낸다.
-			userID = (String) session.getAttribute("userID");
-		}
-		int pageNumber = 1;//기본적으로 1페이지
-		if (request.getParameter("pageNumber") != null)
-			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+	String userID = null;
+			if (session.getAttribute("userID") != null) {//주어진 userID에 연결된 속성값을 얻어낸다.
+		userID = (String) session.getAttribute("userID");
+			}
+			int pageNumber = 1;//기본적으로 1페이지
+			if (request.getParameter("pageNumber") != null)
+		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 	%>
 	
 	<jsp:include page="header.jsp" />
@@ -52,9 +54,9 @@
 				</thead>
 				<tbody>
 					<%
-						DiaryDAO diaryDAO = new DiaryDAO();
-						ArrayList<Diary> list = diaryDAO.getList(pageNumber, userID); // 현재 로그인한 사용자의 userID를 전달
-						for (int i = 0; i < list.size(); i++) {
+					DiaryDAO diaryDAO = new DiaryDAO();
+									ArrayList<DiaryDTO> list = diaryDAO.getList(pageNumber, userID); // 현재 로그인한 사용자의 userID를 전달
+									for (int i = 0; i < list.size(); i++) {
 					%>
 					<tr>
 					    <%-- 다이어리 항목 출력 --%>

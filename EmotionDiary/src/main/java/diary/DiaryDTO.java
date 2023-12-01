@@ -1,7 +1,7 @@
 package diary;
 
 
-public class Diary {
+public class DiaryDTO {
 
 	private int diaryID;		 // 다이어리 아이디 
 	private String DiaryTitle; 	 // 제목

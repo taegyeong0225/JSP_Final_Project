@@ -93,13 +93,13 @@ public class DiaryDAO {
 		return -1;//데이터베이스 오류
 	}
 	
-	public ArrayList<Diary> getList(int pageNumber, String userID) {
+	public ArrayList<DiaryDTO> getList(int pageNumber, String userID) {
 	    if (userID == null) {
 	        return new ArrayList<>(); // 사용자 ID가 없는 경우 빈 리스트 반환
 	    }
 
 	    String SQL = "SELECT * FROM DIARY WHERE diary_id < ? AND diaryAvailable = 1 AND user_id = ? ORDER BY diary_id DESC LIMIT 10";
-	    ArrayList<Diary> list = new ArrayList<Diary>();
+	    ArrayList<DiaryDTO> list = new ArrayList<DiaryDTO>();
 	    try {
 	        PreparedStatement pstmt = conn.prepareStatement(SQL);
 	        pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
@@ -107,7 +107,7 @@ public class DiaryDAO {
 
 	        rs = pstmt.executeQuery();
 	        while (rs.next()) {
-	            Diary diary = new Diary();
+	            DiaryDTO diary = new DiaryDTO();
 	            diary.setDiaryID(rs.getInt(1));
 	            diary.setUserID(rs.getString(2));
 	            diary.setDiaryTitle(rs.getString(3));
@@ -154,14 +154,14 @@ public class DiaryDAO {
 		return false;
 	}
 	
-	public Diary getDiary(int diaryID) {//하나의 글 내용을 불러오는 함수
+	public DiaryDTO getDiary(int diaryID) {//하나의 글 내용을 불러오는 함수
 		String SQL="SELECT * from DIARY where diary_id = ?";
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
 			pstmt.setInt(1, diaryID);	//물음표
 			rs=pstmt.executeQuery();	//select
 			if(rs.next()) {				//결과가 있다면
-				Diary diary = new Diary();			
+				DiaryDTO diary = new DiaryDTO();			
 				
 				diary.setDiaryID(rs.getInt(1));
 				diary.setUserID(rs.getString(2));

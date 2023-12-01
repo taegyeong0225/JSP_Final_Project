@@ -1,17 +1,17 @@
 package user;
 
-public class User {
+public class UserDTO {
 	private String userID;
     private String userPassword;
     private String userName;
     private String userEmail;
 
     // 기본 생성자
-    public User() {
+    public UserDTO() {
     }
 
     // 매개변수가 있는 생성자
-    public User(String userID, String userPassword, String userName, String userEmail) {
+    public UserDTO(String userID, String userPassword, String userName, String userEmail) {
         this.userID = userID;
         this.userPassword = userPassword;
         this.userName = userName;

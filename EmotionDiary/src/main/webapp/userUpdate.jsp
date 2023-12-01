@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="user.UserDAO" %>
-<%@ page import="user.User" %>
+<%@ page import="user.UserDTO" %>
 
 <!DOCTYPE html>
 <html>
@@ -19,11 +19,10 @@
 <body>
 	<%
 	String userID=null;
-	if(session.getAttribute("userID")!=null){
-		userID=(String)session.getAttribute("userID");
-	}
-	User user=new UserDAO().getUser(userID);
-	
+		if(session.getAttribute("userID")!=null){
+			userID=(String)session.getAttribute("userID");
+		}
+		UserDTO user=new UserDAO().getUser(userID);
 	%>
 	
 	<jsp:include page="header.jsp"/>
