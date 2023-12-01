@@ -44,7 +44,7 @@ public class DiaryDAO {
 	}
 	
 	public int getNext() {
-		String SQL="SELECT diaryID from DIARY order by diaryID DESC";//마지막 게시물 반환
+		String SQL="SELECT diary_id from DIARY order by diary_id DESC";//마지막 게시물 반환
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
 			rs=pstmt.executeQuery();
@@ -59,25 +59,28 @@ public class DiaryDAO {
 		return -1;//데이터베이스 오류
 	}
 	
-	public int write(String diaryTitle, String userID, String diaryContent, int diaryCount) {
+	public int write(String diaryTitle, String userID, String diaryContent) {
 		String SQL="INSERT INTO DIARY VALUES (?, ?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
 			
+			
+			// 감정 분석 코드 필요
+			
 			pstmt.setInt(1, getNext());//게시글 번호
-			pstmt.setString(2, diaryTitle);//제목
-			pstmt.setString(3, userID);//아이디
-//			pstmt.setString(4, getDiaryDate());//날짜
+			pstmt.setString(2, userID);//아이디
+			pstmt.setString(3, diaryTitle);//제목
+			pstmt.setString(4, diaryContent);//내용
 			
-			Diary diary = new Diary();
-			// ResultSet 객체에서 Timestamp 값을 가져옵니다.
-			Timestamp diaryDate = rs.getTimestamp(4);
-			// Diary 객체의 diaryDate 필드에 설정합니다.
-			diary.setDiaryDate(diaryDate);
+			pstmt.setString(5, getDate());//날짜
 			
-			pstmt.setString(5, diaryContent);//내용
-			pstmt.setInt(6, 1);//삭제된 경우가 아니기 때문에 1을 넣어줌
-			pstmt.setInt(7, diaryCount);
+			// 감정 분석 결과 넣기
+			pstmt.setString(6, "happy");//삭제된 경우가 아니기 때문에 1을 넣어줌, avail
+			
+			pstmt.setInt(7, 1);//삭제된 경우가 아니기 때문에 1을 넣어줌, avail
+			
+
+			
 			return pstmt.executeUpdate();			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -87,7 +90,7 @@ public class DiaryDAO {
 	
 	//데이터베이스에서 글의 목록을 가져오는 소스코드 작성
 	public ArrayList<Diary> getList(int pageNumber){//특정한 리스트를 받아서 반환
-		String SQL="SELECT * from DIARY where diaryID < ? AND diaryAvailable = 1 order by diaryID desc limit 10";//마지막 게시물 반환, 삭제가 되지 않은 글만 가져온다.
+		String SQL="SELECT * from DIARY where diary_id < ? AND diaryAvailable = 1 order by diary_id desc limit 10";//마지막 게시물 반환, 삭제가 되지 않은 글만 가져온다.
 		ArrayList<Diary> list = new ArrayList<Diary>();
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
@@ -96,17 +99,12 @@ public class DiaryDAO {
 			while(rs.next()) {
 				Diary diary = new Diary();
 				diary.setDiaryID(rs.getInt(1));
-				diary.setDiaryTitle(rs.getString(2));
-				diary.setUserID(rs.getString(3));
-				
-				// ResultSet 객체에서 Timestamp 값을 가져옵니다.
-				Timestamp diaryDate = rs.getTimestamp(4);
-				// Diary 객체의 diaryDate 필드에 설정합니다.
-				diary.setDiaryDate(diaryDate);
-
-				
-				diary.setDiaryContent(rs.getString(5));
-				diary.setDiaryAvailable(rs.getInt(6));
+				diary.setUserID(rs.getString(2));
+				diary.setDiaryTitle(rs.getString(3));
+				diary.setDiaryContent(rs.getString(4));
+				diary.setDiaryDate(rs.getString(5));
+				diary.setEmotion(rs.getString(6));		
+				diary.setDiaryAvailable(rs.getInt(7));
 				list.add(diary); // list에 해당 인스턴스를 담는다.
 			}			
 		} catch(Exception e) {
@@ -130,7 +128,7 @@ public class DiaryDAO {
 	}
 	
 	public boolean nextPage(int pageNumber) {//페이지 처리를 위한 함수
-		String SQL="SELECT * from diary where diaryID < ? AND diaryAvailable =1";
+		String SQL="SELECT * from diary where diary_id < ? AND diaryAvailable =1";
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext()-(pageNumber-1)*10);
@@ -145,28 +143,22 @@ public class DiaryDAO {
 	}
 	
 	public Diary getDiary(int diaryID) {//하나의 글 내용을 불러오는 함수
-		String SQL="SELECT * from DIARY where diaryID = ?";
+		String SQL="SELECT * from DIARY where diary_id = ?";
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
-			pstmt.setInt(1, diaryID);//물음표
-			rs=pstmt.executeQuery();//select
-			if(rs.next()) {//결과가 있다면
-				Diary diary = new Diary();
-				diary.setDiaryID(rs.getInt(1));//첫 번째 결과 값
-				diary.setDiaryTitle(rs.getString(2));
-				diary.setUserID(rs.getString(3));
-
-				Timestamp diaryDate = rs.getTimestamp(4);
-				// Diary 객체의 diaryDate 필드에 설정합니다.
-				diary.setDiaryDate(diaryDate);	
+			pstmt.setInt(1, diaryID);	//물음표
+			rs=pstmt.executeQuery();	//select
+			if(rs.next()) {				//결과가 있다면
+				Diary diary = new Diary();			
 				
-				diary.setDiaryContent(rs.getString(5));
-				diary.setDiaryAvailable(rs.getInt(6));
-//				int diaryCount=rs.getInt(7);
-//				diary.setDiaryCount(diaryCount);
-//				diaryCount++;
-//				countUpdate(diaryCount,diaryID);
-
+				diary.setDiaryID(rs.getInt(1));
+				diary.setUserID(rs.getString(2));
+				diary.setDiaryTitle(rs.getString(3));
+				diary.setDiaryContent(rs.getString(4));
+				diary.setDiaryDate(rs.getString(5));
+				diary.setEmotion(rs.getString(6));		
+				diary.setDiaryAvailable(rs.getInt(7));
+				
 				return diary;//6개의 항목을 diary 인스턴스에 넣어 반환한다.
 			}			
 		} catch(Exception e) {
@@ -175,36 +167,22 @@ public class DiaryDAO {
 		return null;
 	}
 	
-	public int countUpdate(int diaryCount, int diaryID) {
-		String SQL = "update diary set diaryCount = ? where diaryID = ?";
-		try {
-			PreparedStatement pstmt=conn.prepareStatement(SQL);
-			pstmt.setInt(1, diaryCount);//물음표의 순서
-			pstmt.setInt(2, diaryID);
-			return pstmt.executeUpdate();//insert,delete,update			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		return -1;//데이터베이스 오류
-	}
-	
-	
 	public int update(int diaryID, String diaryTitle,String diaryContent ) {
-		String SQL="update DIARY set diaryTitle = ?, diaryContent = ? where diaryID = ?";//특정한 아이디에 해당하는 제목과 내용을 바꿔준다. 
+		String SQL="update DIARY set title = ?, content = ? where diary_id = ?";//특정한 아이디에 해당하는 제목과 내용을 바꿔준다. 
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
-			pstmt.setString(1, diaryTitle);//물음표의 순서
+			pstmt.setString(1, diaryTitle);		//물음표의 순서
 			pstmt.setString(2, diaryContent);
 			pstmt.setInt(3, diaryID);
-			return pstmt.executeUpdate();//insert,delete,update			
+			return pstmt.executeUpdate();		//insert,delete,update			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return -1;//데이터베이스 오류
+		return -1;								//데이터베이스 오류
 	}
 	
 	public int delete(int diaryID) {
-		String SQL = "update DIARY set diaryAvailable = 0 where diaryID = ?";
+		String SQL = "update DIARY set diaryAvailable = 0 where diary_id = ?";
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
 			pstmt.setInt(1, diaryID);

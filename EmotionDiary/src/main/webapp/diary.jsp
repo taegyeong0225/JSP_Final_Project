@@ -54,18 +54,16 @@
 					<%
 						DiaryDAO diaryDAO = new DiaryDAO();
 						ArrayList<Diary> list = diaryDAO.getList(pageNumber);
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 HH:mm");
 						for (int i = 0; i < list.size(); i++) {
-						    Diary diary = list.get(i);
-					        String formattedDate = sdf.format(new Date(diary.getDiaryDate().getTime()));
 					%>
 					<tr>
 					    <%-- 다이어리 항목 출력 --%>
-						<td><%= diary.getDiaryID() %></td>
-						<td><a href="view.jsp?diaryID=<%= diary.getDiaryID() %>"><%= diary.getDiaryTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;")
+						<td><%= list.get(i).getDiaryID() %></td>
+						<td><a href="view.jsp?diaryID=<%= list.get(i).getDiaryID() %>"><%= list.get(i).getDiaryTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;")
 							.replaceAll(">", "&gt;").replaceAll("\n", "<br>") %></a></td>
-						<td><%= diary.getUserID() %></td>
-						<td><%= formattedDate %></td>
+						<td><%= list.get(i).getUserID() %></td>
+						<td><%=list.get(i).getDiaryDate().substring(0, 11) + list.get(i).getDiaryDate().substring(11, 13) + "시"
+						+ list.get(i).getDiaryDate().substring(14, 16) + "분"%></td>
 					</tr>
 					<%
 						}

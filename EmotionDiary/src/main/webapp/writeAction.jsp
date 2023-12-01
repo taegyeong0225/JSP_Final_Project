@@ -13,7 +13,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Emotion Diary</title>
+<title>일기장 작성</title>
 </head>
 <body>
 	<%
@@ -38,7 +38,7 @@
 					script.println("</script>");
 				}else{
 					DiaryDAO diaryDAO=new DiaryDAO();//하나의 인스턴스
-					int result=diaryDAO.write(diary.getDiaryTitle(),userID,diary.getDiaryContent(),diary.getDiaryCount());
+					int result=diaryDAO.write(diary.getDiaryTitle(),userID,diary.getDiaryContent());
 					if(result == -1){//데이터 베이스 오류가 날 때
 						PrintWriter script=response.getWriter();
 						script.println("<script>");

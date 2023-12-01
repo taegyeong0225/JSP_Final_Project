@@ -7,10 +7,12 @@ public class Diary {
 	private int diaryID;		 // 다이어리 아이디 
 	private String DiaryTitle; 	 // 제목
 	private String userID; 		 // 유저 아이디 
-	private Timestamp diaryDate; // 날짜 
+	private String diaryDate; // 날짜 
 	private String diaryContent; // 내용  
-	private int diaryAvailable;	
-	private int diaryCount;
+	private String emotion;		 // 감정
+	private int diaryAvailable;	 // 사용 가능 한지
+
+
 	
 	// 다이어리 아이디 
 	public int getDiaryID() {
@@ -37,10 +39,10 @@ public class Diary {
 	}
 	
 	// 날짜
-	public Timestamp getDiaryDate() {
+	public String getDiaryDate() {
 		return diaryDate;
 	}
-	public void setDiaryDate(Timestamp diaryDate) {
+	public void setDiaryDate(String diaryDate) {
 		this.diaryDate = diaryDate;
 	}
 	
@@ -51,17 +53,19 @@ public class Diary {
 	public void setDiaryContent(String diaryContent) {
 		this.diaryContent = diaryContent;
 	}
+	// 감정
+	
+	public String getEmotion() {
+		return emotion;
+	}
+	public void setEmotion(String emotion) {
+		this.emotion = emotion;
+	}
+	// 사용 가능 여부
 	public int getDiaryAvailable() {
 		return diaryAvailable;
 	}
 	public void setDiaryAvailable(int diaryAvailable) {
 		this.diaryAvailable = diaryAvailable;
 	}
-	public int getDiaryCount() {
-		return diaryCount;
-	}
-	public void setDiaryCount(int diaryCount) {
-		this.diaryCount = diaryCount;
-	}
-	
 }

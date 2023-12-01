@@ -10,7 +10,7 @@
 
 <script src="https://kit.fontawesome.com/e902df2198.js" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
-<title>❤️Emotion Diary❤️</title>
+<title>❤Emotion Diary️❤</title>
 
 <%@page import="java.util.Calendar"%>
 <%
@@ -56,6 +56,7 @@
             userID = (String) session.getAttribute("userID");
         }
     %>
+
     <div class="container-fluid">
         <div class="row">
             <nav class="navbar navbar-expand-lg bg-danger-subtle">
@@ -107,7 +108,6 @@
         </div>
     </div>
 </header>
-
 
 <div class="calendar">
 	<div class="title">

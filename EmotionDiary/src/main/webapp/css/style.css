@@ -37,9 +37,6 @@ a:active, a:hover {
     color: #F28011;
 }
 
-.title {
-		
-}
 
 /* 캘린더 스타일 */
 .calendar {
@@ -95,6 +92,3 @@ a:active, a:hover {
     text-align: right;
     font-size: 12px;
 }
-
-
-
