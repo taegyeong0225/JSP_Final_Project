@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import diary.Diary;
-
 public class UserDAO {
 	
 	private Connection conn;//데이터베이스에 접근하게 해주는 하나의 객체

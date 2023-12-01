@@ -1,20 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-<%@ page import="diary.diaryDAO"%>
-<%-- <%@ page import="EmotionDiary.Diary"%> --%>
+	pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="diary.DiaryDAO"%>
+<%@ page import="diary.Diary"%>
 <%@ page import="java.util.ArrayList"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width" , initial-scale="1">
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="css/style.css">
+<title>JSP 게시판 웹 사이트</title>
+<style type="text/css">
+a, a:hover {
+	color: #000000;
+	text-decoration: none;
+}
+</style>
 </head>
 <body>
-
 	<%
-		diaryDAO diary = new diaryDAO();
+		String userID = null;
+		if (session.getAttribute("userID") != null) {//주어진 userID에 연결된 속성값을 얻어낸다.
+			userID = (String) session.getAttribute("userID");
+		}
+		//현재 페이지가 몇번째 페이지 인가
+		int pageNumber = 1;//기본적으로 1페이지
+		if (request.getParameter("pageNumber") != null)
+			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+	%>
+	<jsp:include page="header.jsp" />
+	<%
+	 	DiaryDAO diary = new DiaryDAO();
 	%>
 	<div class="container">
 		<div class="row">
@@ -50,26 +70,31 @@
 						<th style="background-color: #2e8b57; text-align: center;">제목</th>
 						<th style="background-color: #2e8b57; text-align: center;">작성자</th>
 						<th style="background-color: #2e8b57; text-align: center;">작성일</th>
-						<th style="background-color: #2e8b57; text-align: center;">조회수</th>
-						<th style="background-color: #2e8b57; text-align: center;">추천수👍</th>
 					</tr>
 				</thead>
 				<tbody>
 					<%
-						diaryDAO diaryDAO = new diaryDAO();
-						ArrayList<diary> list = diaryDAO.getList(pageNumber);
+						DiaryDAO diaryDAO = new DiaryDAO();
+						ArrayList<Diary> list = diaryDAO.getList(pageNumber);
 						for (int i = 0; i < list.size(); i++) {
 					%>
+					<%
+					    // 날짜 및 시간을 포매팅하기 위한 SimpleDateFormat 인스턴스 생성
+					    SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분");
+					
+					    // ArrayList의 타입이 Diary 타입인지 확인하고, Diary 타입으로 변경해야 합니다.
+					    ArrayList<Diary> list = diaryDAO.getList(pageNumber);
+					    for (int i = 0; i < list.size(); i++) {
+					        // Timestamp 객체를 가져와서 SimpleDateFormat을 이용해 문자열로 포매팅
+					        String formattedDate = sdf.format(list.get(i).getDiaryDate());
+					%>
 					<tr>
-						<td><%=list.get(i).getdiaryID()%></td>
+						<td><%=list.get(i).getDiaryID()%></td>
 						<%--현재 게시글에 대한 정보 --%>
-						<td><a href="view.jsp?diaryID=<%=list.get(i).getdiaryID()%>"><%=list.get(i).getdiaryTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;")
+						<td><a href="view.jsp?diaryID=<%=list.get(i).getDiaryID()%>"><%=list.get(i).getDiaryTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;")
 						.replaceAll(">", "&gt;").replaceAll("\n", "<br>")%></a></td>
 						<td><%=list.get(i).getUserID()%></td>
-						<td><%=list.get(i).getdiaryDate().substring(0, 11) + list.get(i).getdiaryDate().substring(11, 13) + "시"
-						+ list.get(i).getdiaryDate().substring(14, 16) + "분"%></td>
-						<td><%=list.get(i).getdiaryCount()%></td>
-						<td><%=list.get(i).getLikeCount()%></td>
+						<td><%=formattedDate%></td>
 					</tr>
 					<%
 						}

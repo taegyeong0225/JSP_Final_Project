@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class DiaryDAO {
@@ -59,10 +60,18 @@ public class DiaryDAO {
 		String SQL="INSERT INTO DIARY VALUES (?, ?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
+			
 			pstmt.setInt(1, getNext());//게시글 번호
 			pstmt.setString(2, diaryTitle);//제목
 			pstmt.setString(3, userID);//아이디
-			pstmt.setString(4, getDate());//날짜
+//			pstmt.setString(4, getDiaryDate());//날짜
+			
+			Diary diary = new Diary();
+			// ResultSet 객체에서 Timestamp 값을 가져옵니다.
+			Timestamp diaryDate = rs.getTimestamp(4);
+			// Diary 객체의 diaryDate 필드에 설정합니다.
+			diary.setDiaryDate(diaryDate);
+			
 			pstmt.setString(5, diaryContent);//내용
 			pstmt.setInt(6, 1);//삭제된 경우가 아니기 때문에 1을 넣어줌
 			pstmt.setInt(7, diaryCount);
@@ -86,17 +95,21 @@ public class DiaryDAO {
 				diary.setDiaryID(rs.getInt(1));
 				diary.setDiaryTitle(rs.getString(2));
 				diary.setUserID(rs.getString(3));
-				diary.setDiaryDate(rs.getString(4));
+				
+				// ResultSet 객체에서 Timestamp 값을 가져옵니다.
+				Timestamp diaryDate = rs.getTimestamp(4);
+				// Diary 객체의 diaryDate 필드에 설정합니다.
+				diary.setDiaryDate(diaryDate);
+
+				
 				diary.setDiaryContent(rs.getString(5));
 				diary.setDiaryAvailable(rs.getInt(6));
-				diary.setDiaryCount(rs.getInt(7));
-				diary.setLikeCount(rs.getInt(8));
-				list.add(diary);//list에 해당 인스턴스를 담는다.
+				list.add(diary); // list에 해당 인스턴스를 담는다.
 			}			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return list;//ㄱㅔ시글 리스트 반환
+		return list;// 게시글 리스트 반환
 	}
 	
 	public int getCount() {
@@ -139,17 +152,19 @@ public class DiaryDAO {
 				diary.setDiaryID(rs.getInt(1));//첫 번째 결과 값
 				diary.setDiaryTitle(rs.getString(2));
 				diary.setUserID(rs.getString(3));
-				diary.setDiaryDate(rs.getString(4));
+
+				Timestamp diaryDate = rs.getTimestamp(4);
+				// Diary 객체의 diaryDate 필드에 설정합니다.
+				diary.setDiaryDate(diaryDate);	
+				
 				diary.setDiaryContent(rs.getString(5));
 				diary.setDiaryAvailable(rs.getInt(6));
-				int diaryCount=rs.getInt(7);
-				diary.setDiaryCount(diaryCount);
-				diaryCount++;
-				countUpdate(diaryCount,diaryID);
-	
-				diary.setLikeCount(rs.getInt(8));
-				//like(diaryID);
-				return diary;//6개의 항목을 diary인스턴스에 넣어 반환한다.
+//				int diaryCount=rs.getInt(7);
+//				diary.setDiaryCount(diaryCount);
+//				diaryCount++;
+//				countUpdate(diaryCount,diaryID);
+
+				return diary;//6개의 항목을 diary 인스턴스에 넣어 반환한다.
 			}			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -197,23 +212,12 @@ public class DiaryDAO {
 		return -1;//데이터베이스 오류
 	}
 	
-	public int like(int diaryID) {
-		String SQL = "update diary set likeCount = likeCount + 1 where diaryID = ?";
-		try {
-			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, diaryID);
-			return pstmt.executeUpdate();
-		} catch(Exception e) {
-			e.printStackTrace();
-		} 
-		return -1;
-	}
 	
 	public ArrayList<Diary> getSearch(String searchField, String searchText){//특정한 리스트를 받아서 반환
 	      ArrayList<Diary> list = new ArrayList<Diary>();
 	      String SQL ="select * from diary WHERE "+searchField.trim();
 	      try {
-	            if(searchText != null && !searchText.equals("") ){//이거 빼면 안 나온다ㅜ 왜지?
+	            if(searchText != null && !searchText.equals("") ){
 	                SQL +=" LIKE '%"+searchText.trim()+"%' order by diaryID desc limit 10";
 	            }
 	            PreparedStatement pstmt=conn.prepareStatement(SQL);
@@ -223,11 +227,15 @@ public class DiaryDAO {
 	            diary.setDiaryID(rs.getInt(1));
 	            diary.setDiaryTitle(rs.getString(2));
 	            diary.setUserID(rs.getString(3));
-	            diary.setDiaryDate(rs.getString(4));
+				
+				// ResultSet 객체에서 Timestamp 값을 가져옵니다.
+				Timestamp diaryDate = rs.getTimestamp(4);
+				// Diary 객체의 diaryDate 필드에 설정합니다.
+				diary.setDiaryDate(diaryDate);
+				
+				
 	            diary.setDiaryContent(rs.getString(5));
 	            diary.setDiaryAvailable(rs.getInt(6));
-	            diary.setDiaryCount(rs.getInt(7));
-	            diary.setLikeCount(rs.getInt(8));
 	            list.add(diary);//list에 해당 인스턴스를 담는다.
 	         }         
 	      } catch(Exception e) {

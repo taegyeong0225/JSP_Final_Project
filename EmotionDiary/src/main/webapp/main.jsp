@@ -2,11 +2,10 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<link href="style.css" rel="stylesheet" type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
 
+<script src="https://kit.fontawesome.com/e902df2198.js" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
-
-
 
 <%@page import="java.util.Calendar"%>
 <%
@@ -42,7 +41,7 @@
 
 <%-- <jsp:include page="header.jsp" /> --%>
 
-<!--  해더 내용 -->
+
 <!-- 해더 내용 -->
 <header>
     <%
@@ -59,20 +58,20 @@
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item">
-                                <a class="nav-link btn btn-danger active" aria-current="page" href="calendar.jsp">감정 달력</a>
+                                <a class="nav-link btn btn-danger active" aria-current="page" href="main.jsp">감정 달력</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn btn-danger" href="#">일기장</a>
+                                <a class="nav-link btn btn-danger" href="diaryList.jsp">일기장</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn btn-outline-light" href="inputContent">✍🏻글쓰기</a>
+                                <a class="nav-link btn btn-outline-light" href="inputContent.jsp">✍🏻글쓰기</a>
                             </li>
                         </ul>
                         <ul class="navbar-nav">
                             <% if (userID == null) { %>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        접속하기
+                                        <i class="fa-solid fa-right-to-bracket"></i> 접속하기
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li><a class="dropdown-item" href="login.jsp">로그인</a></li>
@@ -155,6 +154,6 @@
 		</tbody>
 	</table>
 	<div class="footer">
-		<a href="calendar.jsp">오늘날짜로</a>
+		<a href="main.jsp">오늘날짜로</a>
 	</div>
 </div>
