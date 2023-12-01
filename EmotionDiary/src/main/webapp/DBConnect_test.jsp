@@ -20,7 +20,7 @@
 	   Statement stat    = null;
 	   ResultSet rs    = null;
 	   
-	   String jdbcURL = "jdbc:mysql://localhost:3306/diary";
+	   String jdbcURL = "jdbc:mysql://localhost:3306/EmotionDiary";
 	   String dbUser = "root";
 	   String dbPass = "rootpw";
 	   

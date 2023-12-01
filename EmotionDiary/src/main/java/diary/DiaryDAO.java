@@ -14,10 +14,13 @@ public class DiaryDAO {
 	
 	public DiaryDAO() {//mysql에 접속을 하게 해줌,자동으로 데이터베이스 커넥션이 일어남
 		try {//예외처리
-			String dbURL = "jdbc:mysql://localhost:3306/DIARY?serverTimezone=UTC";
+			
+			Class.forName("com.mysql.jdbc.Driver");//mysql드라이버를 찾는다.
+			
+			String dbURL = "jdbc:mysql://localhost:3306/EmotionDiary?serverTimezone=UTC";
 			String dbID="root";
 			String dbPassword="rootpw";
-			Class.forName("com.mysql.jdbc.Driver");//mysql드라이버를 찾는다.
+			
 			//드라이버는 mysql에 접속할 수 있도록 매개체 역할을 하는 하나의 라이브러리
 			conn=DriverManager.getConnection(dbURL,dbID,dbPassword);
 		}catch(Exception e) {

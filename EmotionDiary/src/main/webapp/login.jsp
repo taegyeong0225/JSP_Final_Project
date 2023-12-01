@@ -21,7 +21,6 @@
         <div class="col-md-4 mx-auto">
           <!-- 중앙에 위치하는 내용을 여기에 배치 -->
           <main class="form-signin">
-             
             <center><h1 class="h3 mb-3 fw-normal">Log In</h1></center>
             <form method="post" action="loginAction.jsp">
     			<div class="form-floating">

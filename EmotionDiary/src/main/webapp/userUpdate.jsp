@@ -9,9 +9,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name ="viewport" content="width=device-width", initial-scale="1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
-<title>JSP 게시판 웹 사이트</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+<link rel="stylesheet" href="css/style.css">
+<title>Emotion Diary</title>
 </head>
 <body>
 	<%
@@ -25,9 +28,6 @@
 	
 	<jsp:include page="header.jsp"/>
 	
-	<%
-		
-	%>
 	<div class="container">
 		<div class="col-lg-4"></div>
 		<div class="col-lg-4">
@@ -46,15 +46,13 @@
 					<div class="form-group">
 						<input type="email" class="form-control" value=<%=user.getUserEmail()%> name="userEmail" maxlength="20">
 					</div>
-					<input type="submit" class="btn btn-success form-control" value="수정하기"></form>
+					<input type="submit" class="btn btn-danger form-control" value="수정하기"></form>
 					<br>
             <form method="post" action="userDeleteAction.jsp">
             <input type="submit" class="btn btn-danger pull-right" value="탈퇴하기">
             </form>
-
-					</div></div>
-</div>
-	<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="js/bootstrap.js"></script>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
