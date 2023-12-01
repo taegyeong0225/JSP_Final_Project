@@ -16,7 +16,7 @@ public class DiaryDAO {
 		try {//예외처리
 			String dbURL = "jdbc:mysql://localhost:3306/DIARY?serverTimezone=UTC";
 			String dbID="root";
-			String dbPassword="1248";
+			String dbPassword="rootpw";
 			Class.forName("com.mysql.jdbc.Driver");//mysql드라이버를 찾는다.
 			//드라이버는 mysql에 접속할 수 있도록 매개체 역할을 하는 하나의 라이브러리
 			conn=DriverManager.getConnection(dbURL,dbID,dbPassword);

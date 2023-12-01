@@ -22,7 +22,7 @@
                                 <a class="nav-link btn btn-danger active" aria-current="page" href="main.jsp">감정 달력</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn btn-danger" href="diaryList.jsp">일기장</a>
+                                <a class="nav-link btn btn-danger" href="diary.jsp">일기장</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link btn btn-outline-light" href="inputContent.jsp">✍🏻글쓰기</a>

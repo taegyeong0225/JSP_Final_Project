@@ -4,14 +4,16 @@
 <%@ page import="diary.DiaryDAO" %>
 <%@ page import="java.io.PrintWriter" %>
 <% request.setCharacterEncoding("UTF-8"); %>
+
 <jsp:useBean id="diary" class="diary.Diary" scope="page"/>
 <jsp:setProperty name="diary" property="diaryTitle"/>
 <jsp:setProperty name="diary" property="diaryContent" />
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>JSP 게시판 웹 사이트</title>
+<title>Emotion Diary</title>
 </head>
 <body>
 	<%

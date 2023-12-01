@@ -1,18 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="user.UserDAO" %>
+<%@ page import="user.User" %>
 <%@ page import="java.io.PrintWriter" %>
-<%
-request.setCharacterEncoding("UTF-8");
-%>
-<jsp:useBean id="user" class="user.User" scope="page"/><%--빈을 생성한다. --%>
-<jsp:setProperty name="user" property="userID"/><%--빈에 값을 저장 --%>
-<jsp:setProperty name="user" property="userPassword" />
+<% request.setCharacterEncoding("UTF-8"); %>
+
+<jsp:useBean id="user" class="user.User" scope="page"/>
+<jsp:setProperty name="user" property="userID"/>
+<jsp:setProperty name="user" property="userPassword"/>
+
 <!DOCTYPE html> 
 <html>
 <head>
 <meta charset="UTF-8">
-<title>JSP 게시판 웹 사이트</title>
+<title>Emotion Diary</title>
 </head>
 <body>
 	<%

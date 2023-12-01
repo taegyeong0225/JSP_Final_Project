@@ -1,3 +1,7 @@
+<!DOCTYPE html>
+<html>
+<head>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -38,10 +42,12 @@
     
     int week = cal.get(Calendar.DAY_OF_WEEK); // 1(일)~7(토)
 %>
+</head>
+<body>
 
-<%-- <jsp:include page="header.jsp" /> --%>
 
 <!-- 해더 내용 -->
+<%-- <jsp:include page="header.jsp" /> --%>
 <header>
     <%
         String userID = null;
@@ -60,7 +66,7 @@
                                 <a class="nav-link btn btn-danger active" aria-current="page" href="main.jsp">감정 달력</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn btn-danger" href="diaryList.jsp">일기장</a>
+                                <a class="nav-link btn btn-danger" href="diary.jsp">일기장</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link btn btn-outline-light" href="inputContent.jsp">✍🏻글쓰기</a>
@@ -96,12 +102,12 @@
     </div>
 </header>
 
-  
+
 <div class="calendar">
 	<div class="title">
-		<a href="calendar.jsp?year=<%=year%>&month=<%=month-1%>">&lt;</a>
+		<a href="main.jsp?year=<%=year%>&month=<%=month-1%>"><i class="fa-solid fa-chevron-left"></i></a>
 		<label><%=year%>년 <%=month%>월</label>
-		<a href="calendar.jsp?year=<%=year%>&month=<%=month+1%>">&gt;</a>
+		<a href="main.jsp?year=<%=year%>&month=<%=month+1%>"><i class="fa-solid fa-chevron-right"></i></a>
 	</div>
 	
 	<table>
@@ -156,3 +162,5 @@
 		<a href="main.jsp">오늘날짜로</a>
 	</div>
 </div>
+</body>
+</html>

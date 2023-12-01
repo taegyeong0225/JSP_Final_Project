@@ -1,9 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="diary.DiaryDAO"%>
 <%@ page import="diary.Diary"%>
 <%@ page import="java.util.ArrayList"%>
+
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -13,13 +16,13 @@
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/custom.css">
 <link rel="stylesheet" href="css/style.css">
-<title>JSP 게시판 웹 사이트</title>
+
+<title>Emotion Diary - list</title>
 <style type="text/css">
 a, a:hover {
 	color: #000000;
 	text-decoration: none;
-}
-</style>
+}</style>=
 </head>
 <body>
 	<%
@@ -32,17 +35,12 @@ a, a:hover {
 		if (request.getParameter("pageNumber") != null)
 			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 	%>
+	
 	<jsp:include page="header.jsp" />
-	<%
-	 	DiaryDAO diary = new DiaryDAO();
-	%>
+	
 	<div class="container">
 		<div class="row">
 			<form method="post" name="search" action="searchdiary.jsp">
-				<div class="alert alert-info">
-					<strong>오늘은 <%=diary.getDate().substring(0,4) + "년 "
-						+ diary.getDate().substring(5, 7) + "월 " + diary.getDate().substring(8, 10) + "일"%> 입니다. </strong>
-						오늘을 공유해주세요 💜	</div>
 				<table class="pull-right">
 					<tr>
 						<td><select class="form-control" name="searchField">
@@ -62,8 +60,8 @@ a, a:hover {
 	<br>
 	<div class="container">
 		<div class="row">
-			<table class="active table table-striped"
-				style="text-align: center; border: 1px solid #dddddd">
+			<table class="active table table-striped" style="text-align: center; border: 1px solid #dddddd">
+			    <%-- 테이블 헤더 생략 --%>
 				<thead>
 					<tr>
 						<th style="background-color: #2e8b57; text-align: center;">번호</th>
@@ -78,10 +76,7 @@ a, a:hover {
 						ArrayList<Diary> list = diaryDAO.getList(pageNumber);
 						for (int i = 0; i < list.size(); i++) {
 					%>
-					<%
-					    // 날짜 및 시간을 포매팅하기 위한 SimpleDateFormat 인스턴스 생성
-					    SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분");
-					
+					<%				
 					    // ArrayList의 타입이 Diary 타입인지 확인하고, Diary 타입으로 변경해야 합니다.
 					    ArrayList<Diary> list = diaryDAO.getList(pageNumber);
 					    for (int i = 0; i < list.size(); i++) {
