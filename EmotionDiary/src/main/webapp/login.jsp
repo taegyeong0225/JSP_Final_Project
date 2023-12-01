@@ -32,7 +32,7 @@
 			        <input type="password" class="form-control" name="userPassword" placeholder="password"> <!-- name 속성을 userPassword로 설정 -->
 			        <label for="floatingPassword">Password</label>
 			    </div>
-			    <button class="btn btn-primary w-100 py-2" type="submit">Log In</button>
+			    <button class="btn btn-danger w-100 py-2" type="submit">Log In</button>
 			</form>
             
           </main>

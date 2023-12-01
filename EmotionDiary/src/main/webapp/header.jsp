@@ -2,7 +2,6 @@
 <header>
 	<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<script src="https://kit.fontawesome.com/e902df2198.js" crossorigin="anonymous"></script>
-	<link href="css/style.css" rel="stylesheet" type="text/css">
 	
     <%
         String userID = null;
@@ -15,7 +14,7 @@
         <div class="row">
             <nav class="navbar navbar-expand-lg bg-danger-subtle">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="main.jsp">EMOTION DIARY</a>
+                    <a class="navbar-brand" href="main.jsp" id="title">EMOTION DIARY</a>
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item">
@@ -23,9 +22,6 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link btn btn-danger" href="diary.jsp">일기장</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-outline-light" href="inputContent.jsp">✍🏻글쓰기</a>
                             </li>
                         </ul>
                         <ul class="navbar-nav">

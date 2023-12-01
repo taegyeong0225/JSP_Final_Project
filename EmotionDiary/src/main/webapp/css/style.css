@@ -37,6 +37,10 @@ a:active, a:hover {
     color: #F28011;
 }
 
+.title {
+		
+}
+
 /* 캘린더 스타일 */
 .calendar {
     width: 600px;

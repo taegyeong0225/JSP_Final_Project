@@ -68,9 +68,6 @@
                             <li class="nav-item">
                                 <a class="nav-link btn btn-danger" href="diary.jsp">일기장</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-outline-light" href="inputContent.jsp">✍🏻글쓰기</a>
-                            </li>
                         </ul>
                         <ul class="navbar-nav">
                             <% if (userID == null) { %>
