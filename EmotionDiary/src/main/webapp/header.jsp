@@ -5,8 +5,10 @@
 	
     <%
         String userID = null;
+        String userName = null; // 사용자 이름을 저장할 변수
         if (session.getAttribute("userID") != null) {
             userID = (String) session.getAttribute("userID");
+            userName = (String) session.getAttribute("userName"); // 세션에서 사용자 이름을 가져옵니다.
         }
     %>
     
@@ -46,7 +48,7 @@
                             <% } else { %> 
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        회원관리
+                                        <%= userName %>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li><a class="dropdown-item" href="logoutAction.jsp">로그아웃</a></li>
