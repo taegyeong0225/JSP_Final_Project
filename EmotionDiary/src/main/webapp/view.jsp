@@ -72,8 +72,8 @@
 				<%
 					if(userID != null && userID.equals(diary.getUserID())){//해당 글이 본인이라면 수정과 삭제가 가능
 				%>
-						<a href="update.jsp?diaryID=<%=diaryID%>" class="btn btn-warning">수정</a>
-						<a onclick="return confirm('정말로 삭제하시겠습니까?')" href="deleteAction.jsp?diaryID=<%=diaryID%>" class="btn btn-danger">삭제</a>
+						<a href="update.jsp?diaryID=<%=diaryID%>" class="btn btn-secondary">수정</a>
+						<a onclick="return confirm('정말로 삭제하시겠습니까?')" href="deleteAction.jsp?diaryID=<%=diaryID%>" class="btn btn-secondary">삭제</a>		
 				<%
 					}
 				%>

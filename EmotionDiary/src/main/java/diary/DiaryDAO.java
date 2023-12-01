@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 public class DiaryDAO {
 	
 	private Connection conn;//데이터베이스에 접근하게 해주는 하나의 객체
@@ -28,7 +30,8 @@ public class DiaryDAO {
 		}
 	}
 	
-	public String getDate() {//현재 서버 시간 가져오기
+	//현재 서버 시간 가져오기
+	public String getDate() {
 		String SQL="select now()";//현재 시간을 가져오는 mysql문장
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);//sql문장을 실행 준비 단계로
@@ -43,6 +46,7 @@ public class DiaryDAO {
 		return "";//데이터베이스 오류
 	}
 	
+	// 게시글 번
 	public int getNext() {
 		String SQL="SELECT diary_id from DIARY order by diary_id DESC";//마지막 게시물 반환
 		try {
@@ -59,6 +63,7 @@ public class DiaryDAO {
 		return -1;//데이터베이스 오류
 	}
 	
+	//  게시글 저장	
 	public int write(String diaryTitle, String userID, String diaryContent) {
 		String SQL="INSERT INTO DIARY VALUES (?, ?, ?, ?, ?, ?, ?)";
 		try {
@@ -88,30 +93,37 @@ public class DiaryDAO {
 		return -1;//데이터베이스 오류
 	}
 	
-	//데이터베이스에서 글의 목록을 가져오는 소스코드 작성
-	public ArrayList<Diary> getList(int pageNumber){//특정한 리스트를 받아서 반환
-		String SQL="SELECT * from DIARY where diary_id < ? AND diaryAvailable = 1 order by diary_id desc limit 10";//마지막 게시물 반환, 삭제가 되지 않은 글만 가져온다.
-		ArrayList<Diary> list = new ArrayList<Diary>();
-		try {
-			PreparedStatement pstmt=conn.prepareStatement(SQL);
-			pstmt.setInt(1, getNext()-(pageNumber-1)*10);//물음표에 들어갈 내용
-			rs=pstmt.executeQuery();
-			while(rs.next()) {
-				Diary diary = new Diary();
-				diary.setDiaryID(rs.getInt(1));
-				diary.setUserID(rs.getString(2));
-				diary.setDiaryTitle(rs.getString(3));
-				diary.setDiaryContent(rs.getString(4));
-				diary.setDiaryDate(rs.getString(5));
-				diary.setEmotion(rs.getString(6));		
-				diary.setDiaryAvailable(rs.getInt(7));
-				list.add(diary); // list에 해당 인스턴스를 담는다.
-			}			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		return list;// 게시글 리스트 반환
+	public ArrayList<Diary> getList(int pageNumber, String userID) {
+	    if (userID == null) {
+	        return new ArrayList<>(); // 사용자 ID가 없는 경우 빈 리스트 반환
+	    }
+
+	    String SQL = "SELECT * FROM DIARY WHERE diary_id < ? AND diaryAvailable = 1 AND user_id = ? ORDER BY diary_id DESC LIMIT 10";
+	    ArrayList<Diary> list = new ArrayList<Diary>();
+	    try {
+	        PreparedStatement pstmt = conn.prepareStatement(SQL);
+	        pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
+	        pstmt.setString(2, userID); // 매개변수로 받은 userID 사용
+
+	        rs = pstmt.executeQuery();
+	        while (rs.next()) {
+	            Diary diary = new Diary();
+	            diary.setDiaryID(rs.getInt(1));
+	            diary.setUserID(rs.getString(2));
+	            diary.setDiaryTitle(rs.getString(3));
+	            diary.setDiaryContent(rs.getString(4));
+	            diary.setDiaryDate(rs.getString(5)); // Timestamp 타입으로 수정
+	            diary.setEmotion(rs.getString(6));        
+	            diary.setDiaryAvailable(rs.getInt(7));
+	            list.add(diary); // list에 해당 인스턴스를 담는다.
+	        }            
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return list; // 게시글 리스트 반환
 	}
+
+
 	
 	public int getCount() {
 		String SQL = "select count(*) from diary";
@@ -194,34 +206,4 @@ public class DiaryDAO {
 	}
 	
 	
-	public ArrayList<Diary> getSearch(String searchField, String searchText){//특정한 리스트를 받아서 반환
-	      ArrayList<Diary> list = new ArrayList<Diary>();
-	      String SQL ="select * from diary WHERE "+searchField.trim();
-	      try {
-	            if(searchText != null && !searchText.equals("") ){
-	                SQL +=" LIKE '%"+searchText.trim()+"%' order by diaryID desc limit 10";
-	            }
-	            PreparedStatement pstmt=conn.prepareStatement(SQL);
-				rs=pstmt.executeQuery();//select
-	         while(rs.next()) {
-	        	Diary diary = new Diary();
-	            diary.setDiaryID(rs.getInt(1));
-	            diary.setDiaryTitle(rs.getString(2));
-	            diary.setUserID(rs.getString(3));
-				
-				// ResultSet 객체에서 Timestamp 값을 가져옵니다.
-				Timestamp diaryDate = rs.getTimestamp(4);
-				// Diary 객체의 diaryDate 필드에 설정합니다.
-				diary.setDiaryDate(diaryDate);
-				
-				
-	            diary.setDiaryContent(rs.getString(5));
-	            diary.setDiaryAvailable(rs.getInt(6));
-	            list.add(diary);//list에 해당 인스턴스를 담는다.
-	         }         
-	      } catch(Exception e) {
-	         e.printStackTrace();
-	      }
-	      return list;//ㄱㅔ시글 리스트 반환
-	   }
 }

@@ -69,4 +69,14 @@
     <servlet-name>list</servlet-name>
     <url-pattern>/list</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DiaryListServlet</display-name>
+    <servlet-name>DiaryListServlet</servlet-name>
+    <servlet-class>diary.DiaryListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DiaryListServlet</servlet-name>
+    <url-pattern>/DiaryListServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

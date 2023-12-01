@@ -53,7 +53,7 @@
 				<tbody>
 					<%
 						DiaryDAO diaryDAO = new DiaryDAO();
-						ArrayList<Diary> list = diaryDAO.getList(pageNumber);
+						ArrayList<Diary> list = diaryDAO.getList(pageNumber, userID); // 현재 로그인한 사용자의 userID를 전달
 						for (int i = 0; i < list.size(); i++) {
 					%>
 					<tr>
