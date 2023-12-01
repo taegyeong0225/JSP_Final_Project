@@ -41,7 +41,6 @@
 
 <%-- <jsp:include page="header.jsp" /> --%>
 
-
 <!-- 해더 내용 -->
 <header>
     <%
