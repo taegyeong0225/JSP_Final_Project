@@ -10,6 +10,7 @@
 
 <script src="https://kit.fontawesome.com/e902df2198.js" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
+<title>❤️Emotion Diary❤️</title>
 
 <%@page import="java.util.Calendar"%>
 <%
@@ -60,10 +61,18 @@
             <nav class="navbar navbar-expand-lg bg-danger-subtle">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="main.jsp">EMOTION DIARY</a>
+                    
+                                        
+                    <!-- 토글 버튼 추가 -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item">
-                                <a class="nav-link btn btn-danger active" aria-current="page" href="main.jsp">감정 달력</a>
+                                <a class="nav-link btn btn-danger" aria-current="page" href="main.jsp">감정 달력</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link btn btn-danger" href="diary.jsp">일기장</a>

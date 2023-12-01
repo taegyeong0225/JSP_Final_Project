@@ -24,8 +24,8 @@
 			script.println("</script>");
 		}
 		User user = new UserDAO().getUser(userID);
-			if(request.getParameter("userID")==null||request.getParameter("userPassword")==null||request.getParameter("userName")==null
-			||request.getParameter("userGender")==null||request.getParameter("userEmail")==null){
+			if(request.getParameter("userID")==null||request.getParameter("userPassword")==null
+					||request.getParameter("userName")==null||request.getParameter("userEmail")==null){
 			PrintWriter script=response.getWriter();
 			script.println("<script>");
 			script.println("alert('입력이 안 된 사항이 있습니다.')");

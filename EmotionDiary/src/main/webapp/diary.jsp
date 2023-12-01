@@ -21,7 +21,7 @@
     
 <link rel="stylesheet" href="css/style.css">
 
-<title>Emotion Diary - list</title>
+<title>일기장 목록</title>
 
 
 </head>
