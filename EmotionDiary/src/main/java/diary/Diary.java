@@ -1,6 +1,5 @@
 package diary;
 
-import java.sql.Timestamp;
 
 public class Diary {
 

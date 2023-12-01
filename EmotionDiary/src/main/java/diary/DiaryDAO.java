@@ -46,7 +46,7 @@ public class DiaryDAO {
 		return "";//데이터베이스 오류
 	}
 	
-	// 게시글 번
+	// 게시글 반환 
 	public int getNext() {
 		String SQL="SELECT diary_id from DIARY order by diary_id DESC";//마지막 게시물 반환
 		try {

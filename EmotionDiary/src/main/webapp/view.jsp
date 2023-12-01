@@ -67,6 +67,7 @@
 						</tr>
 					</tbody>
 				</table>
+			<div class="mb-3">
 				<a href="diary.jsp" class="btn btn-danger">목록</a>
 				
 				<%
@@ -77,6 +78,7 @@
 				<%
 					}
 				%>
+			</div>
 		</div>
 	</div>
 </body>

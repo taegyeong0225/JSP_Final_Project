@@ -31,6 +31,12 @@
 		int result=userDAO.login(user.getUserID(), user.getUserPassword());//페이지에 입력된 아이디와 비번을 login함수에 넣어줌
 		if(result == 1){
 			session.setAttribute("userID",user.getUserID());//세션부여
+			User loggedInUser = userDAO.getUser(user.getUserID());
+			
+			if(loggedInUser != null){
+	            session.setAttribute("userName", loggedInUser.getUserName()); // Set user name in session
+	        }
+			
 			PrintWriter script=response.getWriter();
 			script.println("<script>");
 			script.println("location.href='main.jsp'");//로그인에 성공하면 main페이지로
