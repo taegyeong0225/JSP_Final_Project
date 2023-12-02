@@ -4,10 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-
-import jakarta.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DiaryDAO {
 	
@@ -32,20 +31,60 @@ public class DiaryDAO {
 	
 	//현재 서버 시간 가져오기
 	public String getDate() {
-		String SQL="select now()";//현재 시간을 가져오는 mysql문장
-		try {
-			PreparedStatement pstmt=conn.prepareStatement(SQL);//sql문장을 실행 준비 단계로
-			rs=pstmt.executeQuery();//실행결과 가져오기
-			if(rs.next()) {
-				return rs.getString(1);//현재 날짜 반환
-			}
-			
-		} catch(Exception e) {
-			e.printStackTrace();//오류 발생
-		}
-		return "";//데이터베이스 오류
+	    String SQL = "SELECT CURDATE()"; // 현재 날짜만 가져오는 SQL 쿼리
+	    try {
+	        PreparedStatement pstmt = conn.prepareStatement(SQL);
+	        rs = pstmt.executeQuery();
+	        if(rs.next()) {
+	            return rs.getString(1); // 현재 날짜 반환 (YYYY-MM-DD 형식)
+	        }
+	    } catch(Exception e) {
+	        e.printStackTrace(); // 오류 발생 시 스택 트레이스 출력
+	    }
+	    return ""; // 데이터베이스 오류 시 빈 문자열 반환
 	}
+
 	
+	// 같은 날짜에 못들어오도록 함
+    public boolean isEntryExists(String userID, String date) {
+        String SQL = "SELECT COUNT(*) FROM DIARY WHERE user_id = ? AND DATE(created_date) = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, userID);
+            pstmt.setString(2, date);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // 카운트가 0보다 크면 해당 날짜에 이미 데이터가 있는 것임
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false; // 예외 발생 시 또는 데이터 없을 시 false 반환
+    }
+    
+    // 감정 데이터 조회 
+    public Map<String, String> getEmotionsForMonth(int year, int month) {
+        Map<String, String> emotions = new HashMap<>();
+        String SQL = "SELECT diaryDate, emotion FROM DIARY WHERE YEAR(diaryDate) = ? AND MONTH(diaryDate) = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, year);
+            pstmt.setInt(2, month);
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String date = rs.getString("diaryDate").split(" ")[0]; // 날짜만 추출 (시간 제거)
+                String emotion = rs.getString("emotion");
+                emotions.put(date, emotion);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return emotions;
+    }
+
+    
+    
 	// 게시글 반환 
 	public int getNext() {
 		String SQL="SELECT diary_id from DIARY order by diary_id DESC";//마지막 게시물 반환
@@ -62,30 +101,33 @@ public class DiaryDAO {
 		}
 		return -1;//데이터베이스 오류
 	}
+
 	
 	//  게시글 저장	
 	public int write(String diaryTitle, String userID, String diaryContent) {
+
+	    // 이미 해당 날짜에 게시글이 있는지 확인
+	    if (isEntryExists(userID, getDate())) {
+	        return -1; // 이미 존재하면 -1을 반환하여 게시글 작성 불가를 나타냄
+	    }
+	    
 		String SQL="INSERT INTO DIARY VALUES (?, ?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
 			
+			// 감정 분석 클래스 인스턴스화
+			emotionAnalytics sentimentAnalysis = new emotionAnalytics();
+			String sentiment = sentimentAnalysis.analyzeSentiment(diaryContent);
 			
-			// 감정 분석 코드 필요
 			
-			pstmt.setInt(1, getNext());//게시글 번호
-			pstmt.setString(2, userID);//아이디
-			pstmt.setString(3, diaryTitle);//제목
-			pstmt.setString(4, diaryContent);//내용
-			
-			pstmt.setString(5, getDate());//날짜
-			
-			// 감정 분석 결과 넣기
-			pstmt.setString(6, "happy");//삭제된 경우가 아니기 때문에 1을 넣어줌, avail
-			
-			pstmt.setInt(7, 1);//삭제된 경우가 아니기 때문에 1을 넣어줌, avail
-			
+			pstmt.setInt(1, getNext());			// 게시글 번호
+			pstmt.setString(2, userID);			// 아이디
+			pstmt.setString(3, diaryTitle);		// 제목
+			pstmt.setString(4, diaryContent);	// 내용
+			pstmt.setString(5, getDate());		// 날짜
+			pstmt.setString(6, sentiment); 		// 감정 분석 결과 넣기
+			pstmt.setInt(7, 1);					// 삭제된 경우가 아니기 때문에 1을 넣어줌, avail
 
-			
 			return pstmt.executeUpdate();			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -124,7 +166,7 @@ public class DiaryDAO {
 	}
 
 
-	
+	// 게시글 개수
 	public int getCount() {
 		String SQL = "select count(*) from diary";
 		try {
