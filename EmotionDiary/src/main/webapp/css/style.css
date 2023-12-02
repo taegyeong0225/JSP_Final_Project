@@ -69,6 +69,11 @@ a:active, a:hover {
     border: 1px solid #ccc;
 }
 
+.calendar table td.today {
+    background-color: #FFB6C1;
+}
+
+
 .calendar table td:nth-child(7n+1) {
     color: red;
 }

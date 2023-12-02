@@ -65,7 +65,7 @@ public class DiaryDAO {
     // 감정 데이터 조회 
     public Map<String, String> getEmotionsForMonth(int year, int month) {
         Map<String, String> emotions = new HashMap<>();
-        String SQL = "SELECT diaryDate, emotion FROM DIARY WHERE YEAR(diaryDate) = ? AND MONTH(diaryDate) = ?";
+        String SQL = "SELECT created_date, emotion FROM DIARY WHERE YEAR(created_date) = ? AND MONTH(created_date) = ?";
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setInt(1, year);
@@ -73,7 +73,7 @@ public class DiaryDAO {
 
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                String date = rs.getString("diaryDate").split(" ")[0]; // 날짜만 추출 (시간 제거)
+                String date = rs.getString("created_date").split(" ")[0]; // 날짜만 추출 (시간 제거)
                 String emotion = rs.getString("emotion");
                 emotions.put(date, emotion);
             }
