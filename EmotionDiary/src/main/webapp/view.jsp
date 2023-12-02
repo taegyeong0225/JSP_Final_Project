@@ -34,7 +34,15 @@
 		script.println("</script>");
 			}
 			
-			DiaryDTO diary = new DiaryDAO().getDiary(diaryID);
+			// DiaryDAO 인스턴스 생성
+			DiaryDAO diaryDAO = new DiaryDAO();
+
+			// 지정된 diaryID에 해당하는 일기를 가져오는 부분
+			DiaryDTO diary = diaryDAO.getDiary(diaryID);
+
+			// 현재 날짜를 가져오는 부분
+			String currentDate = diaryDAO.getDate();
+
 	%>
 	
 	<jsp:include page="header.jsp" /> 
@@ -58,7 +66,7 @@
 						</tr>
 						<tr>
 							<td>작성일자</td>
-							<td colspan="2"><%= diary.getDiaryDate().substring(0,11)+diary.getDiaryDate().substring(11,13)+"시"+diary.getDiaryDate().substring(14,16)+"분" %></td>
+							<td colspan="2"><%= currentDate %></td>
 						</tr>
 						<tr>
 							<td>내용</td>

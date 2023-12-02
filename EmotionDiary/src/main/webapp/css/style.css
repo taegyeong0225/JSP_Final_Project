@@ -81,11 +81,6 @@ a:active, a:hover {
     color: #ccc;
 }
 
-.calendar table td.today {
-    font-weight: 700;
-    background: #ffb1c1;
-}
-
 .calendar .footer {
     height: 25px;
     line-height: 25px;

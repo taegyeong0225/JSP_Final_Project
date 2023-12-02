@@ -1,8 +1,12 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="diary.DiaryDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -21,12 +25,14 @@
     // 시스템 오늘날짜
     int ty = cal.get(Calendar.YEAR);
     int tm = cal.get(Calendar.MONTH) + 1;
-    int td = cal.get(Calendar.DATE);
+    int td = cal.get(Calendar.DATE); // 
     
     int year = cal.get(Calendar.YEAR);
     int month = cal.get(Calendar.MONTH) + 1;
     
-    // 파라미터 받기
+    String today = ty + "년 " + tm + "월 " + td + "일";
+    
+    // URL에서 년도와 월 파라미터 가져오기
     String sy = request.getParameter("year");
     String sm = request.getParameter("month");
     
@@ -40,8 +46,11 @@
     cal.set(year, month - 1, 1);
     year = cal.get(Calendar.YEAR);
     month = cal.get(Calendar.MONTH) + 1;
-    
     int week = cal.get(Calendar.DAY_OF_WEEK); // 1(일)~7(토)
+    
+    DiaryDAO diaryDAO = new DiaryDAO();
+    Map<String, String> emotions = diaryDAO.getEmotionsForMonth(year, month);
+    
 %>
 </head>
 <body>
@@ -111,13 +120,13 @@
     </div>
 </header>
 
+
 <div class="calendar">
 	<div class="title">
 		<a href="main.jsp?year=<%=year%>&month=<%=month-1%>"><i class="fa-solid fa-chevron-left"></i></a>
 		<label><%=year%>년 <%=month%>월</label>
 		<a href="main.jsp?year=<%=year%>&month=<%=month+1%>"><i class="fa-solid fa-chevron-right"></i></a>
-	</div>
-	
+</div>
 	<table>
 		<thead>
 			<tr>
@@ -130,44 +139,45 @@
 				<td>토</td>
 			</tr>
 		</thead>
-		<tbody>
-<%
-			// 1일 앞 달
-			Calendar preCal = (Calendar)cal.clone();
-			preCal.add(Calendar.DATE, -(week-1));
-			int preDate = preCal.get(Calendar.DATE);
-			
-			out.print("<tr>");
-			// 1일 앞 부분
-			for(int i=1; i<week; i++) {
-				//out.print("<td>&nbsp;</td>");
-				out.print("<td class='gray'>"+(preDate++)+"</td>");
-			}
-			
-			// 1일부터 말일까지 출력
-			int lastDay = cal.getActualMaximum(Calendar.DATE);
-			String cls;
-			for(int i=1; i<=lastDay; i++) {
-				cls = year==ty && month==tm && i==td ? "today":"";
-				
-				out.print("<td class='"+cls+"'>"+i+"</td>");
-				if(lastDay != i && (++week)%7 == 1) {
-					out.print("</tr><tr>");
-				}
-			}
-			
-			// 마지막 주 마지막 일자 다음 처리
-			int n = 1;
-			for(int i = (week-1)%7; i<6; i++) {
-				// out.print("<td>&nbsp;</td>");
-				out.print("<td class='gray'>"+(n++)+"</td>");
-			}
-			out.print("</tr>");
-%>		
-		</tbody>
-	</table>
+        <tbody>
+    <%
+        int day = 1;
+        int lastDayOfMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH); // 달의 마지막 날짜를 구함
+        for (int i = 0; i < 6; i++) { // 최대 6주
+            out.println("<tr>");
+            for (int j = 1; j <= 7; j++) {
+                if (i == 0 && j < week || day > lastDayOfMonth) {
+                    out.println("<td></td>"); // 빈 셀
+                } else {
+                    String dateKey = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
+                    String emotion = emotions.getOrDefault(dateKey, "중립");
+                    String colorClass = "";
+                    
+                    switch (emotion) {
+                        case "긍정":
+                            colorClass = "bg-pink";
+                            break;
+                        case "중립":
+                            colorClass = "bg-yellow";
+                            break;
+                        case "부정":
+                            colorClass = "bg-blue";
+                            break;
+                    }
+                    out.println("<td class='" + colorClass + "'>" + day + "</td>");
+                    day++;
+                }
+            }
+            out.println("</tr>");
+            if (day > lastDayOfMonth) {
+                break; // 달의 마지막 날짜를 초과하면 반복문 종료
+            }
+        }
+    %>
+</tbody>
+        </table>
 	<div class="footer">
-		<a href="main.jsp">오늘날짜로</a>
+		<a href="main.jsp">오늘날짜로(<%= today %>)</a>
 	</div>
 </div>
 </body>
