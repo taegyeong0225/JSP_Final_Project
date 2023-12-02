@@ -140,41 +140,28 @@
 			</tr>
 		</thead>
         <tbody>
-    <%
-        int day = 1;
-        int lastDayOfMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH); // 달의 마지막 날짜를 구함
-        for (int i = 0; i < 6; i++) { // 최대 6주
-            out.println("<tr>");
-            for (int j = 1; j <= 7; j++) {
-                if (i == 0 && j < week || day > lastDayOfMonth) {
-                    out.println("<td></td>"); // 빈 셀
-                } else {
-                    String dateKey = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
-                    String emotion = emotions.getOrDefault(dateKey, "중립");
-                    String colorClass = "";
-                    
-                    switch (emotion) {
-                        case "긍정":
-                            colorClass = "bg-pink";
+                <%
+                    int day = 1;
+                    int lastDayOfMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH); // 달의 마지막 날짜를 구함
+                    for (int i = 0; i < 6; i++) { // 최대 6주
+                        out.println("<tr>");
+                        for (int j = 1; j <= 7; j++) {
+                            if (i == 0 && j < week || day > lastDayOfMonth) {
+                                out.println("<td></td>"); // 빈 셀
+                            } else {
+                                // 오늘 날짜인 경우 'today' 클래스 추가
+                                String classToday = (day == td && month == tm && year == ty) ? "today" : ""; 
+                                out.println("<td class='" + classToday + "'>" + day + "</td>");
+                                day++;
+                            }
+                        }
+                        out.println("</tr>");
+                        if (day > lastDayOfMonth) {
                             break;
-                        case "중립":
-                            colorClass = "bg-yellow";
-                            break;
-                        case "부정":
-                            colorClass = "bg-blue";
-                            break;
+                        }
                     }
-                    out.println("<td class='" + colorClass + "'>" + day + "</td>");
-                    day++;
-                }
-            }
-            out.println("</tr>");
-            if (day > lastDayOfMonth) {
-                break; // 달의 마지막 날짜를 초과하면 반복문 종료
-            }
-        }
-    %>
-</tbody>
+                %>
+            </tbody>
         </table>
 	<div class="footer">
 		<a href="main.jsp">오늘날짜로(<%= today %>)</a>
