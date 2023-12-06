@@ -49,38 +49,26 @@ request.setCharacterEncoding("UTF-8");
 						<th style="background-color: #ffb1c1; text-align: center;">작성자</th>
 						<th style="background-color: #ffb1c1; text-align: center;">제목</th>
 						<th style="background-color: #ffb1c1; text-align: center;">작성일</th>
-						<th style="background-color: #ffb1c1; text-align: center;">기분</th>
 					</tr>
 				</thead>
 				<tbody>
-    <%
-        DiaryDAO diaryDAO = new DiaryDAO();
-        String currentDate = diaryDAO.getDate();
-        ArrayList<DiaryDTO> list = diaryDAO.getList(pageNumber, userID);
-        for (DiaryDTO diary : list) {
-            String emotionSymbol;
-            switch (diary.getEmotion()) {
-                case "긍정":
-                    emotionSymbol = "(*´∪`)";
-                    break;
-                case "부정":
-                    emotionSymbol = "(´•̥ ᵔ •̥`)";
-                    break;
-                default:
-                    emotionSymbol = "ʚ₍ . ̫ . ₎ɞ";
-            }
-    %>
-    <tr>
-        <td><%= diary.getUserID() %></td>
-        <td><a href="view.jsp?diaryID=<%= diary.getDiaryID() %>"><%= diary.getDiaryTitle() %></a></td>
-        <td><%= currentDate %></td>
-        <td><%= emotionSymbol %></td>
-    </tr>
-    <%
-        }
-    %>
-</tbody>
-
+					<%
+							DiaryDAO diaryDAO = new DiaryDAO();
+							String currentDate = diaryDAO.getDate();
+									ArrayList<DiaryDTO> list = diaryDAO.getList(pageNumber, userID); // 현재 로그인한 사용자의 userID를 전달
+									for (int i = 0; i < list.size(); i++) {
+					%>
+					<tr>
+					    <%-- 다이어리 항목 출력 --%>
+						<td><%= list.get(i).getUserID() %></td>
+						<td><a href="view.jsp?diaryID=<%= list.get(i).getDiaryID() %>"><%= list.get(i).getDiaryTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;")
+							.replaceAll(">", "&gt;").replaceAll("\n", "<br>") %></a></td>
+						<td><%= currentDate %></td>
+					</tr>
+					<%
+						}
+					%>
+				</tbody>
 			</table>
 			<div class=container style="text-align: center">
 				<%
