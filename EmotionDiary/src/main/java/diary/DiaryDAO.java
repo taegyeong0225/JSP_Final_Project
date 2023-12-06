@@ -16,7 +16,7 @@ public class DiaryDAO {
 	public DiaryDAO() {//mysql에 접속을 하게 해줌,자동으로 데이터베이스 커넥션이 일어남
 		try {//예외처리
 			
-			Class.forName("com.mysql.jdbc.Driver");//mysql드라이버를 찾는다.
+			Class.forName("com.mysql.cj.jdbc.Driver");//mysql드라이버를 찾는다.
 			
 			String dbURL = "jdbc:mysql://localhost:3306/EmotionDiary?serverTimezone=UTC";
 			String dbID="root";

@@ -14,7 +14,7 @@
 	<%
 	   // 1. DB 연결
 	   // Class의 static 메소드인 forName은 클래스의 이름을 매개변수로 받아서 Class 객체를 리턴해줌
-	   Class.forName("com.mysql.jdbc.Driver");
+	   Class.forName("com.mysql.cj.jdbc.Driver");
 	
 	   Connection conn = null;
 	   Statement stat    = null;
